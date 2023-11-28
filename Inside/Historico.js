@@ -26,9 +26,13 @@ export default function Historico({ docId  }) {
         const data = docSnapshot.data();
         if (data.gastos) {
           setGastos([...data.gastos]);
+          const novoTotalGastos = data.gastos.reduce((total, gasto) => total + parseFloat(gasto.valor), 0);
+          setTotalGastos(novoTotalGastos);
         }
         if (data.ganhos) {
           setGanhos([...data.ganhos]);
+          const novoTotalGanhos = data.ganhos.reduce((total, ganho) => total + parseFloat(ganho.valor), 0);
+          setTotalGanhos(novoTotalGanhos);
         }
         if (data.saldo || data.saldo === 0) {
           setSaldo(data.saldo); // Definir o saldo a partir dos dados recuperados
@@ -55,11 +59,11 @@ export default function Historico({ docId  }) {
   ];
 
 const Label = ({ slices }) => {
-  return slices.map((slice, index) =>  {
+  return slices.map((slice, mapIndex) =>  {
     const {pieCentroid, data} = slice;
     return(
       <Meu 
-      index={index}
+      index={mapIndex}
       pieCentroid={pieCentroid}
       data={data}
       />
